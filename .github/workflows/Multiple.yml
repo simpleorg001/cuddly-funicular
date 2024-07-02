@@ -3,6 +3,13 @@ name: Example GitHub Action
 on:
     push:
     workflow_dispatch:
+    repository_dispatch:
+        types:
+            - example-event
+
+concurrency:
+    group: ${{ github.workflow }}
+
 
 jobs:
     First-Job:
@@ -10,9 +17,12 @@ jobs:
         steps:
             - name: Step 1 - Print Hello World
               run: echo "Hello World"
-            
+
             - name: Step 2 - Print Another Message
               run: echo "This is another step in the GitHub Action."
             
             - name: Step 3 - Print Final Message
               run: echo "Final step message."
+            
+            secrets:
+                MY_SECRET: ${{ secrets.MY_SECRET }}
